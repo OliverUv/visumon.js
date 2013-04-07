@@ -1,5 +1,5 @@
 ==========
-visimon.js
+visumon.js
 ==========
 
 *Author: Oliver Uvman (OliverUv @ github)*
