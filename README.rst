@@ -9,7 +9,7 @@ visumon.js
 *License: MIT License*
 
 *Based on `Conway's Game of Life by Pedro Verruma`__.*
-.. __ http://pmav.eu/stuff/javascript-game-of-life-v3.1.1/
+..__ http://pmav.eu/stuff/javascript-game-of-life-v3.1.1/
 
 Visimon will be an interactive game-of-life like visualization written in
 javascript, made to connect to a single html5 canvas tag.
