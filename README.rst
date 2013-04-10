@@ -2,14 +2,10 @@
 visumon.js
 ==========
 
-*Author: Oliver Uvman (OliverUv @ github)*
+What it is
+----------
 
-*Repository: https://github.com/OliverUv/visumon.js*
-
-*License: MIT License*
-
-*Based on `Conway's Game of Life by Pedro Verruma`__.*
-..__ http://pmav.eu/stuff/javascript-game-of-life-v3.1.1/
+*or rather, what it is becoming*
 
 Visimon will be an interactive game-of-life like visualization written in
 javascript, made to connect to a single html5 canvas tag.
@@ -27,3 +23,12 @@ Drawing on canvas should support:
     - Colours for states
     - Borders between cells
     - Blending animations between states
+
+Who's working on it
+-------------------
+
+*Author: Oliver Uvman (OliverUv @ github)*
+
+*Repository: https://github.com/OliverUv/visumon.js*
+
+*License: MIT License*
