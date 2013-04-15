@@ -49,6 +49,22 @@ var conway = {
   },
   transition: function(x, y, state, affectors) {
     living_neighbours = 0;
+    for (var i = affectors.length - 1; i >= 0; i--) {
+      living_neighbours += affectors[i].state;
+    }
+    if (state == 1) {
+      if (living_neighbours < 2)
+        return 0;
+      else if (living_neighbours < 4)
+        return 1;
+      else
+        return 0;
+    } else {
+      if (living_neighbours == 3)
+        return 1;
+      else
+        return 0;
+    }
   }
 };
 
