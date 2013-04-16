@@ -26,6 +26,7 @@
 //  - A list of positions and states of all cells possibly affecting
 //    the subject. These are supplied in the exact same order as in the
 //    list your Affected function returns for that coordinate.
+//    Form: [[x,y,state],...]
 // Your function should return the next state for this cell.
 // Cells outside of the grid will always be reported as having state 0.
 
@@ -50,7 +51,7 @@ var conway = {
   transition: function(x, y, state, affectors) {
     living_neighbours = 0;
     for (var i = affectors.length - 1; i >= 0; i--) {
-      living_neighbours += affectors[i].state;
+      living_neighbours += affectors[i][2];
     }
     if (state == 1) {
       if (living_neighbours < 2)

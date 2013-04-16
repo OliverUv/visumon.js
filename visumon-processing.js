@@ -9,15 +9,7 @@ var yLimit = 600;
 var userChangeQueue = [];
 var changeQueue = [];
 
-function hashCoordinate(c) {
-  return 'Coord:' + c;
-}
-
-function coordsEqual(c1, c2) {
-  return c1 === c2;
-}
-
-var grid = new Hashtable(hashCoordinate, coordsEqual);
+var grid = [];
 
 
 // -------------------------------------
@@ -34,12 +26,12 @@ function getState(x, y) {
   if (forbiddenState(x, y)) {
     return 0;
   }
-  var xvals = grid.get(x);
-  if (xvals === null) {
+  var xvals = grid[x];
+  if (xvals == null) {
     return 0;
   }
-  var state = x.get(y);
-  if (state === null) {
+  var state = xvals[y];
+  if (state == null) {
     return 0;
   }
   return state;
@@ -47,21 +39,22 @@ function getState(x, y) {
 
 function setState(x, y, state) {
   if (forbiddenState(x, y)) {
-    return 0;
+    return;
   }
-  var xVector = grid.get(x);
-  if (xVector === null) {
-    var yVector = new Hashtable(hashCoordinate, coordsEqual);
-    yVector.put(y, state);
-    grid.put(x, yVector);
+  var xVector = grid[x];
+  if (xVector == null) {
+    var yVector = [];
+    yVector[y] = state;
+    grid[x] = yVector;
+  } else {
+    xVector[y] = state;
   }
-  xVector.put(y, state);
 }
 
 
 // ---------------
 // Deal with shit.
-function initialize(data) {
+function limits(data) {
   xLimit = data.xLimit;
   yLimit = data.yLimit;
 }
@@ -73,8 +66,8 @@ function pushActivation(data) {
 }
 
 function onmessage(message) {
-  if (message.command == 'init') {
-    initialize(message.data);
+  if (message.command == 'limits') {
+    limits(message.data);
   } else if (message.command == 'queue') {
     pushActivation(message.data);
     processStack();

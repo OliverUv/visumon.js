@@ -21,7 +21,9 @@ visumon = (function(global) {
     cells: {
       height: 15,
       width: 15
-    }
+    },
+    model: 'conway',
+    colors: 'brownblue'
   };
 
   var drawState = function(data) {
@@ -42,7 +44,7 @@ visumon = (function(global) {
     var yLimit = Math.floor(yLimit);
 
     worker.postMessage({
-      'command': 'init',
+      'command': 'limits',
       'data': {xLimit: xLimit, yLimit: yLimit}});
 
   };
