@@ -1,0 +1,22 @@
+{
+  "name": "visumon.js",
+  "version": "0.0.0",
+  "description": "Visualizes things!",
+  "main": "visumon.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/OliverUv/visumon.js.git"
+  },
+  "author": "Oliver Uvman",
+  "license": "MIT",
+  "gitHead": "4956d76ab1781dda7877fceea7052f918d1e2b03",
+  "readmeFilename": "README.rst",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "qunitjs": "~1.11.0",
+    "grunt-contrib-qunit": "~0.2.1"
+  }
+}
