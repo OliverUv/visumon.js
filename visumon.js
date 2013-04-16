@@ -44,8 +44,8 @@ visumon = (function(global) {
     var yLimit = Math.floor(yLimit);
 
     worker.postMessage({
-      'command': 'limits',
-      'data': {xLimit: xLimit, yLimit: yLimit}});
+      'command': 'init',
+      'data': {xLimit: xLimit, yLimit: yLimit, model: c.model}});
 
   };
 

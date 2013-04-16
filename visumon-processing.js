@@ -1,4 +1,4 @@
-importScripts('jshashtable-2.1/jshashtable_src.js', 'visumon-transitions.js');
+importScripts('visumon-transitions.js');
 
 
 // -----------------------------------------------
@@ -6,7 +6,7 @@ importScripts('jshashtable-2.1/jshashtable_src.js', 'visumon-transitions.js');
 // to store all the datas in.
 var xLimit = 900;
 var yLimit = 600;
-var userChangeQueue = [];
+var model = null;
 var changeQueue = [];
 
 var grid = [];
@@ -54,24 +54,63 @@ function setState(x, y, state) {
 
 // ---------------
 // Deal with shit.
-function limits(data) {
+function init(data) {
   xLimit = data.xLimit;
   yLimit = data.yLimit;
+  model = machines[data.model];
 }
 
-function pushActivation(data) {
+function updateUI(x, y, state) {
+  postMessage({x: x, y: y, state: state});
+}
+
+function activateCell(data) {
   var x = data.x;
   var y = data.y;
-  userChangeQueue.push([x, y, 1]);
+  setState(x, y, 1);
+  updateUI(x, y, 1);
+  queueUpdates(x, y);
+}
+
+// Ensure cells affected by [x, y] are updated next tick.
+function queueUpdates(x, y) {
+  affectedCells = model.affected(x, y);
+  changeQueue = changeQueue.concat(affectedCells);
+}
+
+function queueSpecificUpdates(cells) {
+  changeQueue = changeQueue.concat(cells);
+}
+
+// Process all queued updates.
+function tick() {
+  // Clear changeQueue so that all cascading effects become
+  // part of the next tick instead of this one.
+  var toUpdate = changeQueue;
+  changeQueue = [];
+  for (var i = toUpdate.length - 1; i >= 0; i--) {
+    x = toUpdate[i][0];
+    y = toUpdate[i][1];
+    if (forbiddenState(x, y))
+      continue;
+    currentState = getState(x, y);
+    affectedCells = model.affected(x, y);
+    affectors = appendStates(affectedCells);
+    newState = model.transition(x, y, currentState, affectors);
+    if (newState != currentState) {
+      setState(x, y, newState);
+      updateUI(x, y, newState);
+      queueSpecificUpdates(affectedCells);
+    }
+  }
 }
 
 function onmessage(message) {
-  if (message.command == 'limits') {
-    limits(message.data);
-  } else if (message.command == 'queue') {
-    pushActivation(message.data);
-    processStack();
-  } else if (messsage.command == 'update') {
-    processStack();
+  if (message.command == 'init') {
+    init(message.data);
+  } else if (message.command == 'activate_cell') {
+    activateCell(message.data);
+  } else if (messsage.command == 'tick') {
+    tick();
   }
 }
