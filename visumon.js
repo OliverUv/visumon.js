@@ -22,7 +22,8 @@ visumon = (function(global) {
       width: 15
     },
     model: 'conway',
-    effects: 'brownblue'
+    effects: 'brownblue',
+    background: new THREE.Color(0x790000)
   };
 
   var composer;
@@ -36,11 +37,11 @@ visumon = (function(global) {
   var pushStateAnimation = function(data) {
   };
 
-  var initRenderer = function(c) {
-    var viewAngle = 45;
+  var initGraphics = function(c) {
+    var viewAngle = 50;
     var aspectRatio = c.width / c.height;
-    var near = 0.1;
-    var far = 10000;
+    var near = 1;
+    var far = 2000;
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(c.width, c.height);
@@ -48,7 +49,7 @@ visumon = (function(global) {
     // Shader effect composition
     composer = new THREE.EffectComposer(renderer);
     var renderPass = new THREE.RenderPass(scene, camera,
-              scene.overrideMaterial, BG_COLOR, 0.5);
+              scene.overrideMaterial, c.background, 0.5);
 
     // renderPass must be first pass
     // Last pass must have renderToScreen = true;
@@ -62,9 +63,21 @@ visumon = (function(global) {
         near,
         far);
 
-    camera.position.z = 500;
+    camera.position.x = 100 + c.width;
+    camera.position.y = 200;
+    camera.position.z = 100 + c.width;
+    camera.lookAt(new THREE.Vector3(c.width / 2, -50, c.width / 2));
 
-    // add static things to scene
+    scene.add(new THREE.AmbientLight(0x808080));
+    var light = new THREE.SpotLight(0xffffff, 1.25);
+    light.position.set(-500, 900, 600); // TODO adjust
+    light.target.position.set(c.width / 2, 0, c.width / 2);
+    light.castShadow = true;
+    scene.add(light);
+
+    geometry = new THREE.CubeGeometry(size, size, size);
+    geometry.applyMatrix(new THREE.Matrix4().setTranslation(0, size / 2, 0));
+    material = new THREE.MeshLambertMaterial({color: 0xd0d0d0});
 
 
     // Render function
@@ -92,7 +105,7 @@ visumon = (function(global) {
     var yLimit = c.width / (c.cells.width + c.cellBorders.width * 2);
     c.yLimit = Math.floor(yLimit);
 
-    initRenderer(c);
+    initGraphics(c);
 
     // Start model
     worker.postMessage({
