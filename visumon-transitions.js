@@ -31,7 +31,7 @@
 // Cells outside of the grid will always be reported as having state 0.
 
 
-function radius(x, y, r) {
+function cells_in_radius(x, y, r) {
   var affected_states = [];
 
   for (var i = -r; i <= r; i++) {
@@ -46,7 +46,7 @@ function radius(x, y, r) {
 
 var conway = {
   affected: function(x, y) {
-    return radius(x, y, 1);
+    return cells_in_radius(x, y, 1);
   },
   transition: function(x, y, state, affectors) {
     living_neighbours = 0;

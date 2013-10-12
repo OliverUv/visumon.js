@@ -1,8 +1,8 @@
 importScripts('visumon-transitions.js');
 
 
-// -----------------------------------------------
-// Create virtual table (2 dimensional hashtables)
+// --------------------------
+// Create virtual table
 // to store all the datas in.
 var xLimit = 900;
 var yLimit = 600;
@@ -27,11 +27,11 @@ function getState(x, y) {
     return 0;
   }
   var xvals = grid[x];
-  if (xvals == null) {
+  if (xvals === null) {
     return 0;
   }
   var state = xvals[y];
-  if (state == null) {
+  if (state === null) {
     return 0;
   }
   return state;
@@ -42,7 +42,7 @@ function setState(x, y, state) {
     return;
   }
   var xVector = grid[x];
-  if (xVector == null) {
+  if (xVector === null) {
     var yVector = [];
     yVector[y] = state;
     grid[x] = yVector;

@@ -33,28 +33,15 @@ visumon = (function(global) {
   var worker = new Worker('visumon-processing.js');
   worker.onmessage = pushStateAnimation;
 
-  // Update the visual representation of a grid cell's state.
+  // Update the visual representation of a grid cell's state. TODO
   var pushStateAnimation = function(data) {
   };
 
   var initGraphics = function(c) {
     var viewAngle = 50;
     var aspectRatio = c.width / c.height;
-    var near = 1;
-    var far = 2000;
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(c.width, c.height);
-
-    // Shader effect composition
-    composer = new THREE.EffectComposer(renderer);
-    var renderPass = new THREE.RenderPass(scene, camera,
-              scene.overrideMaterial, c.background, 0.5);
-
-    // renderPass must be first pass
-    // Last pass must have renderToScreen = true;
-    composer.addPass(renderPass);
-    renderPass.renderToScreen = true;
+    var near = 0.1;
+    var far = 1000;
 
     scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
@@ -75,9 +62,25 @@ visumon = (function(global) {
     light.castShadow = true;
     scene.add(light);
 
-    geometry = new THREE.CubeGeometry(size, size, size);
-    geometry.applyMatrix(new THREE.Matrix4().setTranslation(0, size / 2, 0));
+    var size = 10;
+    var cube_geometry = new THREE.CubeGeometry(size, size, size);
+    // cube_geometry.applyMatrix(new THREE.Matrix4().setTranslation(0, size / 2, 0));
     material = new THREE.MeshLambertMaterial({color: 0xd0d0d0});
+    var cube = new THREE.Mesh(cube_geometry, material);
+    scene.add(cube);
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(c.width, c.height);
+
+    // Shader effect composition
+    composer = new THREE.EffectComposer(renderer);
+    var renderPass = new THREE.RenderPass(scene, camera,
+              scene.overrideMaterial, c.background, 0.5);
+
+    // renderPass must be first pass, effects will be overlaid
+    // on top of it. Last pass must have renderToScreen = true;
+    composer.addPass(renderPass);
+    renderPass.renderToScreen = true;
 
 
     // Render function
@@ -92,7 +95,7 @@ visumon = (function(global) {
   };
 
   var init = function(canvas_name, canvas_width, canvas_height, options) {
-    var c = $.extend({}, this.defaults, options);
+    var c = $.extend({}, defaults, options);
     c.width = canvas_width;
     c.height = canvas_height;
     c.canvas = $('#' + canvas_name);
