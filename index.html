@@ -8,10 +8,19 @@
         <div id="test"><p>messages:</p></div>
         <canvas id="canvas" width="900" height="600"></canvas>
     </body>
+
+    <!-- jquery and other misc dependencies -->
     <script src="jquery-1.9.1.js" type="text/javascript" charset="utf-8"></script>
-    <script src="postprocessing/EffectComposer.js" type="text/javascript" charset="utf-8"></script>
-    <script src="postprocessing/RenderPass.js" type="text/javascript" charset="utf-8"></script>
-    <script src="three.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- THREE.js, shaders and post-processing -->
+    <script src="three/three.js" type="text/javascript" charset="utf-8"></script>
+    <script src="three/shaders/CopyShader.js" type="text/javascript" charset="utf-8"></script>
+    <script src="three/postprocessing/EffectComposer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="three/postprocessing/RenderPass.js" type="text/javascript" charset="utf-8"></script>
+    <script src="three/postprocessing/MaskPass.js" type="text/javascript" charset="utf-8"></script>
+    <script src="three/postprocessing/ShaderPass.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- our own scripts -->
     <script src="visumon.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
